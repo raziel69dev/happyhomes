@@ -15,7 +15,9 @@ import villageMap from "./components/assets/VillageMap.vue";
 import villageList from "./components/assets/VillageList.vue";
 import allVillages from "./components/AllVillages.vue";
 import villageReleasedSingle from "./components/assets/VillageReleasedSingle.vue";
-import ReleasedProjects from "./components/ReleasedProjects.vue";
+import loginPage from "./components/admin/loginPage.vue";
+
+
 
 const app = createApp(App);
 
@@ -27,13 +29,13 @@ const router = createRouter({
         path: '/all-villages',
         component: allVillages,
         children: [{
-            path: '/all-villages-map',
+            path: '/all-villages/',
             component: villageMap
         },{
             path: '/all-villages-list',
             component: villageList
         },{
-            path: '/village-single/:id',
+            path: '/all-villages/village-single/:id',
             component: villageReleasedSingle
         }]
     }, {
@@ -48,6 +50,9 @@ const router = createRouter({
     }, {
         path: '/contacts',
         component: Contacts
+    }, {
+        path: '/login',
+        component: loginPage
     }],
     history: createWebHistory()
 })

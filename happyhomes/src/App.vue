@@ -21,7 +21,7 @@
         <div class="" id="navbar">
           <ul class="mr-auto d-flex align-items-center px-2 menu">
             <li class="nav-item" :class="[isActive && 'router-link-active']">
-              <router-link to="/all-villages-map" >Все поселки</router-link>
+              <router-link to="/all-villages" >Все поселки</router-link>
 <!--              <router-link to="/all-villages-map">Все поселки</router-link>-->
             </li>
             <li class="nav-item" :class="[isActive && 'router-link-active']">

@@ -1,40 +1,48 @@
 <template>
-  <div class="row align-items-center">
-    <div class="col-md-8">
-      <h2>{{ village.name }}<span class="id">Номер проекта: {{ village.id }}</span></h2>
+  <div class="row align-items-center mt-5" v-if="loading === true">
+    <div class="spinner-grow col-3 mx-auto text-center" role="status">
+      <span class="visually-hidden">Загрузка объектов</span>
+    </div>
+  </div>
+  <div class="row align-items-center" v-else>
+
+
+    <div class="col-md-8" >
+
+      <h2>{{ village.name }}<span class="id">ID проекта: {{ village.id }}</span></h2>
 
     </div>
-    <div class="col-md-4 text-end price">{{ village.description.price }}</div>
-    <div class="row g-5">
-      <div class="col-md-5 col-12">
-        <img :src="village.description.photos.left" class="w-100">
-      </div>
-      <div class="col-md-5 col-12">
-        <img :src="village.description.photos.middle" class="w-100">
-      </div>
+    <div class="col-md-4 text-end price">от {{ village.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") }}р.</div>
+    <div class="container">
+      <div class="row g-5" >
+        <div class="col-md-4" v-for="(item, index) in village.photos.split('\n')">
+          <a :href="item" data-fancybox="gallery" :data-index="village.photos.length">
+            <img :src="item" class="w-100 rounded">
+          </a>
 
-      <div class="col-md-2 col-12">
-        <img :src="village.description.photos.right_one" class="w-100 mb-5">
-        <img :src="village.description.photos.right_two" class="w-100 mt-1">
+
+        </div>
+
       </div>
     </div>
+
 
     <div class="row">
       <div class="col-md-6 col-12">
         <h2>Преимущества</h2>
         <ul>
-          <li class="item" v-for="item in village.description.features">
+          <li class="item" v-for="item in village.description_features.split('\n')">
             {{ item }}
           </li>
         </ul>
         <h2>Как проехать</h2>
         <div class="item">
           <h4>На общественном транспорте</h4>
-          <li v-for="item in village.description.howToRide.all">
+          <li v-for="item in village.howtoride_all.split('\n')">
             {{ item }}
           </li>
           <h4>На личном автотранспорте</h4>
-          <li v-for="item in village.description.howToRide.Personal">
+          <li v-for="item in village.howtoride_personal.split('\n')">
             {{ item }}
           </li>
 
@@ -42,7 +50,7 @@
       </div>
       <div class="col-md-6 col-12">
         <h2>О поселке</h2>
-        <li class="item" v-for="item in village.description.about">
+        <li class="item" v-for="item in village.about.split('\n')">
           {{ item }}
         </li>
       </div>
@@ -51,13 +59,13 @@
     <div class="row g-5">
       <div class="col-md-6 col-12">
         <h2>Категория обустройства посёлка</h2>
-        <li class="item" v-for="item in village.description.category">
+        <li class="item" v-for="item in village.category.split('\n')" style="list-style: none">
           {{ item }}
         </li>
       </div>
       <div class="col-md-6 col-12">
         <h2>Интерактивная планировка и цены</h2>
-        <p>{{ village.description.interactive }}</p>
+        <p>{{ village.interactive }}</p>
       </div>
     </div>
 
@@ -67,47 +75,49 @@
 
 <script>
 import axios from "axios";
-
+import { Fancybox } from "@fancyapps/ui";
+import "@fancyapps/ui/dist/fancybox/fancybox.css";
 
 
 export default {
+  name: "VillageReleasedSingle.vue",
+
+
   data() {
     return {
       loading: true,
-      village: {
-        name: '',
-        description: '',
-        price: '',
-        id: ''
+      village: {},
+    }
+  },
+
+  created() {
+
+    this.getVillage();
+    Fancybox.bind("[data-fancybox]", {
+      // Your custom options
+    });
+  },
+  methods: {
+    async getVillage() {
+      const need_id = window.location.pathname.replace('/all-villages/village-single/', '');
+      const API_URL = "http://127.0.0.1:3000/single_village/"
+      try {
+        const result = await fetch(API_URL, {
+          method: "POST",
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ id: need_id })
+        }).then(res => res.json())
+
+        this.village = result[0];
+        this.loading = false;
+
+      } catch (err) {
       }
 
     }
-  },
-  name: "VillageReleasedSingle.vue",
-  created() {
-    this.loadAsyncData();
-  },
-  methods: {
-    async loadAsyncData() {
-      const urlParams = new URL(document.location)
-
-      let currentItem = urlParams.pathname;
-
-      const headers = {"X-Master-Key": "$2a$10$ojh2onZQ2OOm/TNDxD5aq.6XI4UUa8jL6aLIW7LTTlt19t6qWr.a2"}
-      let response = await axios.get('https://api.jsonbin.io/v3/b/6535327812a5d376598f082d', { headers });
-      let villages = response.data.record.villages;
-      for(let item of villages) {
-
-        if(item.link === currentItem) {
-          this.village.name = item.name;
-          this.village.id = item.id;
-          this.village.description = item.description;
-          console.log(item.description.howToRide)
-
-        }
-
-      }
-    },
   }
 
 }

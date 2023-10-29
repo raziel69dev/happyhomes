@@ -10,11 +10,11 @@
         </div>
       </div>
 
-        <ul class="row" v-else>
-          <li v-for="village in villages" class="col-md-3 col-12">
-            <router-link :to=" village.link ">{{ village.name }} </router-link>
-          </li>
-        </ul>
+      <ul class="row" v-else>
+        <li v-for="village in villages" class="col-md-3 col-12">
+          <router-link :to=" '/all-villages/village-single/' + village.id ">{{ village.name }} </router-link>
+        </li>
+      </ul>
     </div>
 
   </div>
@@ -24,30 +24,37 @@
 import axios from "axios";
 
 
-export default {
+export default{
+  name: 'villages',
 
   data() {
     return {
       loading: true,
       villages: [],
-      asyncDataHolder: [],
-      selectedVillage: {}
-
     }
   },
+
   created() {
-    this.loadAsyncData();
+    this.getVillages();
   },
   methods: {
-    async loadAsyncData() {
-      const headers = {"X-Master-Key": "$2a$10$ojh2onZQ2OOm/TNDxD5aq.6XI4UUa8jL6aLIW7LTTlt19t6qWr.a2"}
-      let response = await axios.get('https://api.jsonbin.io/v3/b/6535327812a5d376598f082d', { headers });
+    async getVillages() {
+      const API_URL = "http://127.0.0.1:3000/villages_released"
 
-      this.villages = response.data.record.villages
-      this.loading = false;
+      try {
+        const result = await axios(API_URL).then(res => res.data)
+
+        this.loading = false;
+        return this.villages = result;
+
+      } catch (err) {
+
+      }
 
     }
   }
+
+
 }
 
 
