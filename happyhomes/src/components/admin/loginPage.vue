@@ -1,100 +1,31 @@
 <template>
-  <div>
+  <div class="container mx-auto my-5">
 
     <div class="form" v-if="isAdmin === false">
       <h2>Войдите</h2>
+      <div class="alert alert-danger" role="alert" v-if="error">
+        Неправильный логин и\или пароль. Попробуйте снова.
+      </div>
       <div class="form-group">
         <label for="exampleInputEmail1">Логин</label>
-        <input type="text" class="form-control" id="username" v-model="inputed_username" aria-describedby="emailHelp" placeholder="Enter email">
+        <input type="text" class="form-control" id="username" v-model="inputed_username" aria-describedby="emailHelp" placeholder="Enter email" required>
       </div>
       <div class="form-group">
 
         <label for="exampleInputPassword1">Пароль</label>
-        <input type="password" class="form-control" v-model="inputed_password" id="password" placeholder="Password">
+        <input type="password" class="form-control" v-model="inputed_password" id="password" placeholder="Password" required>
       </div>
+
       <button class="btn btn-primary" @click="loginForm">Войти</button>
     </div>
-    <div class="form-add mb-5 pb-5" v-else>
-      <h2>Добавить что-то :)</h2>
-      <div class="row container">
-        <div class="col-md-4 col-12 mt-4">
-          <label>Куда добавляем?</label>
-          <select class="form-control"
-                  :required="true"
-                  v-on:input="onWhereChanged($event.target.value)"
-                  @input="project.where = $event.target.value">
-                  <option
-                      v-for="option in options"
-                      v-bind:value="option.value"
-                      :selected="option === 'Сгенерированная ссылка'"
-                  >{{ option.name }}</option>
-                  @change="onWhereChanged(option)">
-
-
-          </select>
-        </div>
-        <div class="col-md-4 col-12 mt-4">
-          <label>Заголовок</label>
-          <input class="form-control"  :value="project.header" @input="project.header = $event.target.value">
-        </div>
-        <div class="col-md-4 col-12 mt-4">
-          <label>Прайс</label>
-          <input class="form-control" :value="price" @input="project.price = $event.target.value">
-        </div>
-        <div class="col-md-4 col-12 mt-4">
-          <label>Сгенерированная ссылка</label>
-          <input class="form-control" disabled id="generatedLink">
-          <div class="custom-file">
-            <label class="mt-3">Фото 1</label>
-            <input type="file" class="custom-file-input" id="customFile">
-          </div>
-          <div class="custom-file">
-            <label>Фото 2</label>
-            <input type="file" class="custom-file-input" id="customFile2">
-          </div>
-          <div class="custom-file">
-            <label>Фото 3</label>
-            <input type="file" class="custom-file-input" id="customFile3">
-          </div>
-          <div class="custom-file">
-            <label>Фото 4</label>
-            <input type="file" class="custom-file-input" id="customFile4">
-          </div>
-        </div>
-
-        <div class="col-md-4 col-12 mt-4">
-          <label>Особенности</label>
-          <textarea class="form-control" :value="features" @input="project.features = $event.target.value"></textarea>
-        </div>
-
-        <div class="col-md-4 col-12 mt-4">
-          <label>О поселке</label>
-          <textarea class="form-control" :value="about" @input="project.about = $event.target.value"></textarea>
-        </div>
-        <div class="col-md-4 col-12 mt-4">
-          <label>Как добраться?</label>
-          <p>На общественном транспорте</p>
-          <textarea class="form-control small" :value="howtoride_all" @input="project.howtoride_all = $event.target.value" ></textarea>
-          <p>На личном автомобиле</p>
-          <textarea class="form-control small" :value="howtoride_personal" @input="project.howtoride_personal = $event.target.value"></textarea>
-        </div>
-
-        <div class="col-md-4 col-12 mt-4">
-          <label>Категория обустройства поселка</label>
-          <textarea class="form-control" :value="category" @input="project.category = $event.target.value"></textarea>
-        </div>
-
-        <div class="col-md-4 col-12 mt-4">
-          <label>Интерактивная планировка и цены</label>
-          <textarea class="form-control" :value="interactive" @input="project.interactive = $event.target.value"></textarea>
-        </div>
-        <div class="col-md-12 col-12 mt-4">
-          <button class="btn btn-primary"
-                  @click="addProject()">Добавить</button>
-        </div>
-
+    <div class="form-group" v-else>
+      <h2>Панель администратора</h2>
+      <div class="submenu">
+        <router-link to="/admin/add-village" >Добавить проект</router-link>
+        <router-link to="/admin/delete-village" >Удалить проект</router-link>
+        <router-link to="/admin/change-contacts" >Изменить контакты</router-link>
       </div>
-
+      <router-view />
     </div>
 
   </div>
@@ -115,38 +46,9 @@ export default {
     return {
       inputed_username: '',
       inputed_password: '',
+      error: false,
       isAdmin: false,
-      id: '',
-      selected: 'Сгенерированная ссылка появится тут',
-      options: [ {
-        name: 'Выбрать куда добавлять',
-        value: '',
-      },{
-        name: 'Реализованные проекты',
-        value: `/village-single/`,
-      }, {
-        name: 'Все поселки',
-        value: `/all_villages/`
-      }],
-      onWhereChanged(value) {
-        console.log(value);
-        this.selected = value
-      },
-      project: {
-        id: '',
-        where: '',
-        header: '',
-        price: '',
-        link: '',
-        features: '',
-        about: '',
-        howtoride_all: '',
-        howtoride_personal: '',
-        category: '',
-        interactive: '',
-        photo: '',
 
-      }
 
     }
   },
@@ -200,16 +102,17 @@ export default {
             id: settedID
           })
         }).then(res => res.json())
-        window.localStorage.setItem('id', settedID);
-        if (result.length === 0) {
 
+        if (result.length === 0) {
+          this.error = true;
         } else {
+          window.localStorage.setItem('id', settedID);
           this.isAdmin = true;
-          // window.localStorage.setItem('id', this.id);
-          // window.localStorage.setItem('isAdmin', true);
-          // const localId = window.localStorage.getItem('id', this.id);
+          this.error = false;
+          console.log(this.error);
         }
       } catch (err) {
+
         console.log('result failed')
       }
 
@@ -232,8 +135,10 @@ export default {
           })
         }).then(res => res.json())
 
+
       } catch (err) {
         console.log('result failed')
+
       }
 
       console.log(this.selected)
@@ -253,5 +158,18 @@ textarea.small {
 }
 label {
   font-weight: 700;
+}
+.submenu a {
+  margin-right: 30px;
+  color: #000000;
+  text-decoration: none;
+  font-size: 30px;
+  border: 1px solid transparent;
+  transition: 0.15s ease;
+  padding: 10px 20px;
+
+}
+.submenu a:hover {
+  border-color: black;
 }
 </style>

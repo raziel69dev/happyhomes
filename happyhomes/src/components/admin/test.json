@@ -1,0 +1,205 @@
+{
+  "_declaration": {
+    "_attributes": {
+      "version": "1.0",
+      "encoding": "UTF-8"
+    }
+  },
+  "ymaps": {
+    "_attributes": {
+      "xmlns": "http://maps.yandex.ru/ymaps/1.x",
+      "xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+      "xsi:schemaLocation": "http://www.opengis.net/gml http://schemas.opengis.net/gml/3.1.1/base/gml.xsd http://maps.yandex.ru/ymaps/1.x https://maps.yandex.ru/schemas/ymaps/1.x/ymaps.xsd http://maps.yandex.ru/geocoder/1.x http://maps.yandex.ru/schemas/geocoder/1.x/geocoder.xsd http://maps.yandex.ru/address/1.x http://maps.yandex.ru/schemas/search/1.x/address.xsd urn:oasis:names:tc:ciq:xsdschema:xAL:2.0 http://docs.oasis-open.org/election/external/xAL.xsd"
+    },
+    "GeoObjectCollection": {
+      "metaDataProperty": {
+        "_attributes": {
+          "xmlns": "http://www.opengis.net/gml"
+        },
+        "GeocoderResponseMetaData": {
+          "_attributes": {
+            "xmlns": "http://maps.yandex.ru/geocoder/1.x"
+          },
+          "request": {
+            "_text": "17-й проезд Марьиной Рощи, 4к1 (офис 734)[results=<integer>]"
+          },
+          "found": {
+            "_text": "1"
+          },
+          "results": {
+            "_text": "10"
+          }
+        }
+      },
+      "featureMember": {
+        "_attributes": {
+          "xmlns": "http://www.opengis.net/gml"
+        },
+        "GeoObject": {
+          "_attributes": {
+            "xmlns": "http://maps.yandex.ru/ymaps/1.x",
+            "xmlns:gml": "http://www.opengis.net/gml",
+            "gml:id": "1"
+          },
+          "metaDataProperty": {
+            "_attributes": {
+              "xmlns": "http://www.opengis.net/gml"
+            },
+            "GeocoderMetaData": {
+              "_attributes": {
+                "xmlns": "http://maps.yandex.ru/geocoder/1.x"
+              },
+              "kind": {
+                "_text": "house"
+              },
+              "text": {
+                "_text": "Россия, Москва, 17-й проезд Марьиной Рощи, 4к1"
+              },
+              "precision": {
+                "_text": "exact"
+              },
+              "Address": {
+                "_attributes": {
+                  "xmlns": "http://maps.yandex.ru/address/1.x"
+                },
+                "country_code": {
+                  "_text": "RU"
+                },
+                "postal_code": {
+                  "_text": "127521"
+                },
+                "formatted": {
+                  "_text": "Россия, Москва, 17-й проезд Марьиной Рощи, 4к1"
+                },
+                "Component": [
+                  {
+                    "kind": {
+                      "_text": "country"
+                    },
+                    "name": {
+                      "_text": "Россия"
+                    }
+                  },
+                  {
+                    "kind": {
+                      "_text": "province"
+                    },
+                    "name": {
+                      "_text": "Центральный федеральный округ"
+                    }
+                  },
+                  {
+                    "kind": {
+                      "_text": "province"
+                    },
+                    "name": {
+                      "_text": "Москва"
+                    }
+                  },
+                  {
+                    "kind": {
+                      "_text": "locality"
+                    },
+                    "name": {
+                      "_text": "Москва"
+                    }
+                  },
+                  {
+                    "kind": {
+                      "_text": "street"
+                    },
+                    "name": {
+                      "_text": "17-й проезд Марьиной Рощи"
+                    }
+                  },
+                  {
+                    "kind": {
+                      "_text": "house"
+                    },
+                    "name": {
+                      "_text": "4к1"
+                    }
+                  }
+                ]
+              },
+              "AddressDetails": {
+                "_attributes": {
+                  "xmlns": "urn:oasis:names:tc:ciq:xsdschema:xAL:2.0"
+                },
+                "Country": {
+                  "AddressLine": {
+                    "_text": "Россия, Москва, 17-й проезд Марьиной Рощи, 4к1"
+                  },
+                  "CountryNameCode": {
+                    "_text": "RU"
+                  },
+                  "CountryName": {
+                    "_text": "Россия"
+                  },
+                  "AdministrativeArea": {
+                    "AdministrativeAreaName": {
+                      "_text": "Москва"
+                    },
+                    "Locality": {
+                      "LocalityName": {
+                        "_text": "Москва"
+                      },
+                      "Thoroughfare": {
+                        "ThoroughfareName": {
+                          "_text": "17-й проезд Марьиной Рощи"
+                        },
+                        "Premise": {
+                          "PremiseNumber": {
+                            "_text": "4к1"
+                          },
+                          "PostalCode": {
+                            "PostalCodeNumber": {
+                              "_text": "127521"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "description": {
+            "_attributes": {
+              "xmlns": "http://www.opengis.net/gml"
+            },
+            "_text": "Москва, Россия"
+          },
+          "name": {
+            "_attributes": {
+              "xmlns": "http://www.opengis.net/gml"
+            },
+            "_text": "17-й проезд Марьиной Рощи, 4к1"
+          },
+          "boundedBy": {
+            "_attributes": {
+              "xmlns": "http://www.opengis.net/gml"
+            },
+            "Envelope": {
+              "lowerCorner": {
+                "_text": "37.607871 55.806859"
+              },
+              "upperCorner": {
+                "_text": "37.616081 55.811482"
+              }
+            }
+          },
+          "Point": {
+            "_attributes": {
+              "xmlns": "http://www.opengis.net/gml"
+            },
+            "pos": {
+              "_text": "37.611976 55.809171"
+            }
+          }
+        }
+      }
+    }
+  }
+}

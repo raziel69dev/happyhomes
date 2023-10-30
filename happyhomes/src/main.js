@@ -16,6 +16,11 @@ import villageList from "./components/assets/VillageList.vue";
 import allVillages from "./components/AllVillages.vue";
 import villageReleasedSingle from "./components/assets/VillageReleasedSingle.vue";
 import loginPage from "./components/admin/loginPage.vue";
+import villageInstockSingle from "./components/assets/VillageInstockSingle.vue";
+import addVillage from "./components/admin/addVillage.vue";
+import changeContactInfo from "./components/admin/changeContactInfo.vue";
+import deleteProject from "./components/admin/deleteProject.vue";
+import breadcrumbs from "vue-3-breadcrumbs";
 
 
 
@@ -24,7 +29,10 @@ const app = createApp(App);
 const router = createRouter({
     routes: [{
         path: '/',
-        component: HomePage
+        component: villageMap,
+        meta: {
+            breadcrumb: 'Home'
+        }
     }, {
         path: '/all-villages',
         component: allVillages,
@@ -37,6 +45,9 @@ const router = createRouter({
         },{
             path: '/all-villages/village-single/:id',
             component: villageReleasedSingle
+        },{
+            path: '/all-villages/village-instock-single/:id',
+            component: villageInstockSingle
         }]
     }, {
         path: '/all-homes',
@@ -51,11 +62,21 @@ const router = createRouter({
         path: '/contacts',
         component: Contacts
     }, {
-        path: '/login',
+        path: '/admin',
         component: loginPage
+    }, {
+        path: '/admin/add-village',
+        component: addVillage
+    }, {
+        path: '/admin/change-contacts',
+        component: changeContactInfo
+    }, {
+        path: '/admin/delete-village',
+        component: deleteProject
     }],
     history: createWebHistory()
 })
 
-app.use(router, axios, VueAxios)
+app.use(router, axios, VueAxios, breadcrumbs)
 app.mount('#app')
+console.log()

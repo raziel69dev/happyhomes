@@ -1,23 +1,26 @@
 <template>
-  <div class="row align-items-center">
-    <div class="col-md-12">
-      <h2>Реализованные проекты </h2>
-    </div>
-    <div class="container" >
-      <div class="row align-items-center" v-if="loading === true">
-        <div class="spinner-grow col-3 mx-auto text-center" role="status">
-          <span class="visually-hidden">Загрузка объектов</span>
+  <div class="container mx-auto">
+    <div class="row align-items-center">
+      <div class="col-md-12">
+        <h2>Реализованные проекты </h2>
+      </div>
+      <div class="container" >
+        <div class="row align-items-center" v-if="loading === true">
+          <div class="spinner-grow col-3 mx-auto text-center" role="status">
+            <span class="visually-hidden">Загрузка объектов</span>
+          </div>
         </div>
+
+        <ul class="row" v-else>
+          <li v-for="village in villages" class="col-md-3 col-12">
+            <router-link :to=" '/all-villages/village-single/' + village.id ">{{ village.name }} </router-link>
+          </li>
+        </ul>
       </div>
 
-      <ul class="row" v-else>
-        <li v-for="village in villages" class="col-md-3 col-12">
-          <router-link :to=" '/all-villages/village-single/' + village.id ">{{ village.name }} </router-link>
-        </li>
-      </ul>
     </div>
-
   </div>
+
 </template>
 
 <script>

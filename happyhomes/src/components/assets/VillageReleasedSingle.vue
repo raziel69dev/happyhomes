@@ -56,7 +56,7 @@
       </div>
     </div>
 
-    <div class="row g-5">
+    <div class="row">
       <div class="col-md-6 col-12">
         <h2>Категория обустройства посёлка</h2>
         <li class="item" v-for="item in village.category.split('\n')" style="list-style: none">

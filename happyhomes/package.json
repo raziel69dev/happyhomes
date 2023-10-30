@@ -17,10 +17,13 @@
     "bootstrap-vue": "^2.23.1",
     "uuid": "^9.0.1",
     "vue": "^3.3.6",
+    "vue-3-breadcrumbs": "^2.0.0",
     "vue-axios": "^3.5.2",
     "vue-easy-lightbox": "^1.16.0",
     "vue-router": "^4.2.5",
-    "vue-unique-id": "^3.2.1"
+    "vue-unique-id": "^3.2.1",
+    "vue-yandex-maps": "^1.1.0",
+    "xml-js": "^1.6.11"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.2.3",
