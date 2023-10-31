@@ -41,8 +41,8 @@
         </div>
       </div>
       <div class="col-md-3 d-flex align-items-center">
-        <a href="#"><img src="./assets/icons/telegram.png" alt="" class="header-icon"></a>
-        <a href="#"><img src="./assets/icons/whatsapp.png" alt="" class="header-icon"></a>
+        <a :href="'https://t.me/' + contacts.phone.replace('\(', '').replace('\)', '').replaceAll(' ', '').replaceAll('-', '')"><img src="./assets/icons/telegram.png" alt="" class="header-icon"></a>
+        <a :href="'https://wa.me/' + contacts.phone.replace('\(', '').replace('\)', '').replaceAll(' ', '').replaceAll('-', '')"><img src="./assets/icons/whatsapp.png" alt="" class="header-icon"></a>
         <button class="btn btn-outline-primary">Позвоните мне</button>
       </div>
     </div>
@@ -56,7 +56,7 @@
      <router-view />
     </div>
   </section>
-  <footer class="container-fluid pt-3 pb-3 shadow-lg header  fixed-bottom">
+  <footer class="container-fluid pt-3 pb-3 shadow-lg mt-auto">
  FOOTER CONTENT
   </footer>
 </template>
@@ -105,16 +105,6 @@ header {
   position: relative;
   z-index: 1;
 }
-body {
-  padding-bottom: 70px;
-}
-footer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 1;
-  height: 70px;
-}
+
 
 </style>

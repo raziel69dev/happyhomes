@@ -1,18 +1,26 @@
 <template>
-  <div class="container mx-auto my-5">
-    <div class="row align-items-center">
-      <div class="col-md-8">
-        <h2>Все поселки списком</h2>
-      </div>
-      <div class="col-md-4 text-end">
-        <router-link to="/">Поселки на карте</router-link>
+  <div class="container mx-auto my-1">
+    <div class="row align-items-center mt-5" v-if="loading === true">
+      <div class="spinner-grow col-3 mx-auto text-center" role="status">
+        <span class="visually-hidden">Загрузка объектов</span>
       </div>
     </div>
-    <div class="container" >
-      <div class="row align-items-center" v-if="loading === true">
-        <div class="spinner-grow col-3 mx-auto text-center" role="status">
-          <span class="visually-hidden">Загрузка объектов</span>
+    <div class="container" v-else>
+      <div class="row align-items-center">
+
+        <div class="col-12 my-4">
+        <span class="id py-3 d-flex align-items-center">
+          <router-link to="/" class="me-2">Главная</router-link> //
+          <div class="mx-2" >Поселки</div> //
+         </span>
         </div>
+        <div class="col-md-8">
+          <h2>Все поселки списком</h2>
+        </div>
+        <div class="col-md-4 text-end">
+          <router-link to="/">Поселки на карте</router-link>
+        </div>
+
       </div>
 
       <div class="row my-5">

@@ -180,7 +180,7 @@ export default {
 
 <style lang="scss">
 .map {
-  height:80vh;
+  height: 80vh;
 }
 p {
   margin-bottom: 0;

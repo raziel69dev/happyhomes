@@ -16,8 +16,11 @@
           </div>
           <div class="col right">
             {{ contacts.time }} <br />
-            {{ contacts.phone }} <br />
-            {{ contacts.email }}
+            <a :href="'tel:' + contacts.phone">{{ contacts.phone }}</a>
+            <a :href="'https://t.me/' + contacts.phone.replace('\(', '').replace('\)', '').replaceAll(' ', '').replaceAll('-', '')"><img src="./../assets/icons/telegram.png" alt="" class="phone-icon"></a>
+            <a :href="'https://wa.me/' + contacts.phone.replace('\(', '').replace('\)', '').replaceAll(' ', '').replaceAll('-', '')"><img src="./../assets/icons/whatsapp.png" alt="" class="phone-icon"></a>
+            <br />
+            <a :href="'mailto:' + contacts.email">{{ contacts.email }}</a>
           </div>
         </div>
       </div>
@@ -121,9 +124,16 @@ export default {
   font-size: 18px;
   .right {
     font-weight: 600;
+    a {
+      color: #000000;
+      text-decoration: none;
+    }
   }
   .left {
 
   }
-}
+}.phone-icon {
+  width: 20px;
+  margin-left: 10px;
+ }
 </style>

@@ -1,17 +1,20 @@
 <template>
-  <div class="container mx-auto my-5">
+  <div class="container mx-auto my-1">
     <div class="row align-items-center mt-5" v-if="loading === true">
       <div class="spinner-grow col-3 mx-auto text-center" role="status">
         <span class="visually-hidden">Загрузка объектов</span>
       </div>
     </div>
     <div class="row align-items-center" v-else>
-      <div class="col-md-9" >
-        <h2>{{ village.name }}
-          <span class="id py-3 ms-3">
+      <div class="col-12 my-4">
+        <span class="id py-3">
           <router-link to="/">Главная</router-link> //
             <router-link to="/all-villages-list">Поселки</router-link> //
           Поселок {{ village.name }} </span>
+      </div>
+      <div class="col-md-9" >
+        <h2>{{ village.name }}
+
         </h2>
 
       </div>
