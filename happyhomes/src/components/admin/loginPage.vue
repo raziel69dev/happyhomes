@@ -97,8 +97,8 @@ export default {
             exp: Math.round(Date.now() / 1000)
           })
         }).then(res => res.json())
-
-        if (result.length === 0) {
+        console.log(result.error)
+        if (result.error) {
           this.error = true;
         } else {
           window.localStorage.setItem('token', result.token)

@@ -7,7 +7,6 @@ const fs = require('fs');
 const cookieParser = require('cookie-parser')
 const jwt = require('jsonwebtoken')
 
-
 app.use(bodyParser.json());
 app.use(cookieParser('secret key'))
 app.options('*', cors()) // include before other routes
@@ -27,10 +26,11 @@ const connection = mysql.createPool({
     multipleStatements: true
 });
 
+
 // get villages released
 app.get('/villages_released', cors(), async function (req, res) {
     connection.query("SELECT * FROM `villages_released`", function (err, rows, fields) {
-        if (err) throw err;
+        if (err) fs.appendFileSync('errors.log', `${Date.now()}: ${err}`);
         res.send(rows)
     })
 })
@@ -38,7 +38,7 @@ app.get('/villages_released', cors(), async function (req, res) {
 // get villages instock
 app.get('/villages_instock', cors(), async function (req, res) {
     connection.query("SELECT * FROM `villages_instock`", function (err, rows, fields) {
-        if (err) throw err;
+        if (err) fs.appendFileSync('errors.log', `${Date.now()}: ${err}`);
         res.send(rows)
     })
 })
@@ -68,24 +68,35 @@ app.post('/admin-login-check', cors(), async function (req, res) {
 //auth
 app.post('/admin-login', cors(), async function (req, res) {
     const nextExpire = Math.round(Date.now() / 1000 + (60 * 60 * 24))
-    const user = jwt.sign(
-        {
-            username: req.body.username,
-            password: req.body.password,
-        }, secret)
-    connection.query("SELECT * FROM users WHERE username = '" + user.username + "' AND password = '" + user.password + "';", function (err, rows, fields) {
-        if (err) res.send({ "error": true })
+
+    connection.query("SELECT * FROM users WHERE username = '" + req.body.username + "' AND password = '" + req.body.password + "';", function (err, rows, fields) {
+        if (err) {
+            console.log(err)
+            fs.appendFileSync('auth.log', `ERROR | ${new Date(Date.now()).toString()}: username: ${req.body.username}, password: ${req.body.password}, ${secret} \n`);
+            res.send({"error": true})
+        }
+        else if (rows.length <= 0) {
+            fs.appendFileSync('auth.log', `ERROR | ${new Date(Date.now()).toString()}: username: ${req.body.username}, password: ${req.body.password}, ${secret} \n`);
+            res.send({"error": true})
+        }
         else {
             connection.query("UPDATE `users` SET `exp` = '"+ nextExpire +"' WHERE 1;")
+            const user = jwt.sign(
+                {
+                    username: req.body.username,
+                    password: req.body.password,
+                }, secret)
+            fs.appendFileSync('auth.log', `SUCCESS | ${new Date(Date.now()).toString()}: username: ${req.body.username}, password: ${req.body.password}, ${secret}, token: ${user} \n`);
             res.send({"token": user})
         }
     })
+
 })
 
 //get contacts
 app.get('/get-contact-info', cors(), async function (req, res) {
     connection.query("SELECT * FROM `contacts`", function (err, rows, fields) {
-        if (err) throw err;
+        if (err) fs.appendFileSync('errors.log', `${Date.now()}: ${err}`);
         res.send(rows)
     })
 })
@@ -99,7 +110,7 @@ app.post('/set-contact-info', cors(), async function (req, res) {
 app.post('/single_village', cors(), async function (req, res, id) {
     id = req.body.id;
     connection.query('SELECT * FROM villages_released WHERE id = "' + id + '";', function (err, rows, fields) {
-        if (err) throw err;
+        if (err) fs.appendFileSync('errors.log', `${Date.now()}: ${err}`);
         res.send(rows)
     })
 })
@@ -108,7 +119,7 @@ app.post('/single_village', cors(), async function (req, res, id) {
 app.post('/single_village_instock', cors(), async function (req, res, id) {
     id = req.body.id;
     connection.query('SELECT * FROM villages_instock WHERE id = "' + id + '";', function (err, rows, fields) {
-        if (err) throw err;
+        if (err) fs.appendFileSync('errors.log', `${Date.now()}: ${err}`);
         res.send(rows)
     })
 })
@@ -117,7 +128,7 @@ app.post('/single_village_instock', cors(), async function (req, res, id) {
 app.post('/insert-project', cors(), async function (req, res) {
     const object = req.body.projectAdd;
     connection.query("INSERT INTO `villages_instock`(`name`, `link`, `description`, `category`, `price`, `photos`, `howtoride_all`, `howtoride_personal`, `about`, `interactive`, `id`, `coordinates`, `type`) VALUES ('" + object.header + "','" + object.link + "','" + object.features + "','" + object.category + "','" + object.price + "','" + object.photos + "','" + object.howtoride_all + "','" + object.howtoride_personal + "','" + object.about + "','" + object.interactive + "','" + object.id + "','" + object.coordinates +"','" + object.type + "')", function (err, rows, fields) {
-        if (err) throw err;
+        if (err) fs.appendFileSync('errors.log', `${Date.now()}: ${err}`);
         res.send(rows)
     })
 })
@@ -125,7 +136,7 @@ app.post('/insert-project', cors(), async function (req, res) {
 app.post('/delete-project', cors(), async function (req, res) {
     const object = req.body;
     connection.query("DELETE FROM `"+ object.deleteProject.where +"` WHERE `id` = '" + object.deleteProject.id + "'" , function (err, rows, fields) {
-        if (err) throw err;
+        if (err) fs.appendFileSync('errors.log', `${Date.now()}: ${err}`);
         res.send(rows)
     })
 })
