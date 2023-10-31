@@ -20,7 +20,11 @@
               @click="console.log(item.id)"
               data-toggle="modal"
               data-target="#exampleModalLong"
-          />
+          >
+            <template #component>
+              <router-link :to="'/all-villages/village-instock-single/' + item.id">{{ item.name }}</router-link>
+            </template>
+          </YandexMarker>
           <YandexMarker
               :options="{ preset: 'islands#blueHomeIcon' }"
               v-if="item.type === 'homes' && balloonBlue"
@@ -39,14 +43,22 @@
               :coordinates="item.coordinates.split(',')"
               :marker-id="item.id"
 
-          />
+          >
+            <template #component>
+              <router-link :to="'/all-villages/village-instock-single/' + item.id">{{ item.name }}</router-link>
+            </template>
+          </YandexMarker>
           <YandexMarker
               :options="{ preset: 'islands#yellowHomeIcon' }"
               v-if="item.type === 'sales' && balloonYellow"
               :key="item.id"
               :coordinates="item.coordinates.split(',')"
               :marker-id="item.id"
-          />
+          >
+            <template #component>
+              <router-link :to="'/all-villages/village-instock-single/' + item.id">{{ item.name }}</router-link>
+            </template>
+          </YandexMarker>
 
         </YandexCollection>
 

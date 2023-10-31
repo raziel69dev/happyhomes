@@ -1,5 +1,5 @@
 <template>
-  <div class="container mx-auto">
+  <div class="container mx-auto my-5">
     <div class="form-add mb-5 pb-5">
       <div class="row">
         <h2 class="col-md-10 col-12">Добавить проект</h2>
@@ -188,15 +188,12 @@ export default {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            id: window.localStorage.getItem('id')
+            token: window.localStorage.getItem('token')
           })
         }).then(res => res.json())
 
-        if (result.length === 0) {
-          this.isAdmin = false;
-        } else {
-          this.isAdmin = true;
-        }
+        this.isAdmin = result.isAdmin
+
       } catch (err) {
         console.log('result failed')
         return this.isAdmin = false;

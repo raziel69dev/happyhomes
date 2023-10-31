@@ -5,10 +5,13 @@ const cors = require('cors')
 const bodyParser = require('body-parser');
 const fs = require('fs');
 const cookieParser = require('cookie-parser')
+const jwt = require('jsonwebtoken')
+
 
 app.use(bodyParser.json());
 app.use(cookieParser('secret key'))
 app.options('*', cors()) // include before other routes
+const secret = '58107da8-49e5-44da-bff6-698658300185'
 
 //mysql connect
 const connection = mysql.createPool({
@@ -40,26 +43,41 @@ app.get('/villages_instock', cors(), async function (req, res) {
     })
 })
 
-//login check
+//auth check & expire update if is admin
 app.post('/admin-login-check', cors(), async function (req, res) {
-    connection.query("SELECT * FROM users WHERE session_id = '" + req.body.id + "'", function (err, rows, fields) {
-        if (!rows.length) {
-            // not admin
-            res.send(err)
+    const thisDate = Math.round(Date.now() / 1000);
+    jwt.verify(req.body.token, secret,  (err, decoded) => {
+        if (err) {
+            res.send({"isAdmin": false})
         } else {
-            // is admin
-            res.send(rows)
+            connection.query("SELECT * FROM users WHERE username = '" + decoded.username + "' AND password = '" + decoded.password + "';", function (err, rows, fields) {
+                if (err) res.send({"isAdmin": false})
+                else {
+                    if (rows[0].exp < thisDate) res.send({"isAdmin": false})
+                    else {
+                        const newDate = Math.round(Date.now() / 1000 + (60 * 60 * 24))
+                        connection.query("UPDATE `users` SET `exp` = '" + newDate + "' WHERE 1;")
+                        res.send({"isAdmin": true})
+                    }
+                }
+            })
         }
     })
 })
 
-//login
+//auth
 app.post('/admin-login', cors(), async function (req, res) {
-    connection.query("SELECT * FROM users WHERE username = '" + req.body.username + "' AND password = '" + req.body.password + "';", function (err, rows, fields) {
-        res.send(rows)
-        if (!rows.length) {
-        } else {
-            connection.query("UPDATE users SET session_id = '" + req.body.id + "' WHERE username = '" + req.body.username + "' AND password = '" + req.body.password + "';")
+    const nextExpire = Math.round(Date.now() / 1000 + (60 * 60 * 24))
+    const user = jwt.sign(
+        {
+            username: req.body.username,
+            password: req.body.password,
+        }, secret)
+    connection.query("SELECT * FROM users WHERE username = '" + user.username + "' AND password = '" + user.password + "';", function (err, rows, fields) {
+        if (err) res.send({ "error": true })
+        else {
+            connection.query("UPDATE `users` SET `exp` = '"+ nextExpire +"' WHERE 1;")
+            res.send({"token": user})
         }
     })
 })
@@ -111,6 +129,5 @@ app.post('/delete-project', cors(), async function (req, res) {
         res.send(rows)
     })
 })
-
 
 app.listen(3000, () => console.log("Server listening on 3000"));

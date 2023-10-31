@@ -1,11 +1,9 @@
 <template>
-  <div class="container">
+  <div class="container my-5">
     <h2>Контакты</h2>
     <div class="row" v-if="!loading">
-      <div class="col-md-2 col-4">
-        <img src="./../assets/logo.png" class="w-100">
-      </div>
-      <div class="col-md-5 col-4">
+      <div class="col-md-6 col-4">
+        <img src="./../assets/logo.png" class="w-25">
         <h3>ООО "Хэппи Хоумс"</h3>
         <p class="address mt-4" id="address">
           {{ contacts.adress }}
@@ -22,11 +20,8 @@
             {{ contacts.email }}
           </div>
         </div>
-
-
-
       </div>
-      <div class="col-md-5 col-12" v-if="coordinates.length > 1">
+      <div class="col-md-6 col-12" v-if="coordinates.length > 1">
         <YandexMap
             :coordinates="coordinates"
             :settings="settings"
@@ -114,7 +109,7 @@ export default {
 
 <style lang="scss">
 .map-contacts {
-  height: 300px;
+  height: 350px;
 }
 .description {
   font-size: 18px;

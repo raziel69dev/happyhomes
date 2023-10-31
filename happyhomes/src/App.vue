@@ -11,7 +11,7 @@
       </div>
 
       <div class="col-md-3 contacts text-center align-bottom">
-        <div class="phone">{{ contacts.phone }}</div>
+        <div class="phone"><a :href="'tel:' + contacts.phone">{{ contacts.phone }}</a></div>
         <div class="address">{{ contacts. adress }}<br>{{ contacts.time }}</div>
       </div>
 
@@ -56,7 +56,7 @@
      <router-view />
     </div>
   </section>
-  <footer class="container-fluid pt-3 pb-3 shadow-lg header">
+  <footer class="container-fluid pt-3 pb-3 shadow-lg header  fixed-bottom">
  FOOTER CONTENT
   </footer>
 </template>
@@ -101,9 +101,20 @@ export default {
 </script>
 
 <style scoped>
-header, footer {
+header {
   position: relative;
   z-index: 1;
+}
+body {
+  padding-bottom: 70px;
+}
+footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  height: 70px;
 }
 
 </style>

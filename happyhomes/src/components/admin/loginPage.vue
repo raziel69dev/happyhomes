@@ -70,15 +70,12 @@ export default {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            id: window.localStorage.getItem('id')
+            token: window.localStorage.getItem('token')
           })
         }).then(res => res.json())
 
-        if (result.length === 0) {
-          this.isAdmin = false;
-        } else {
-          this.isAdmin = true;
-        }
+        this.isAdmin = result.isAdmin
+
       } catch (err) {
         console.log('result failed')
         return this.isAdmin = false;
@@ -86,8 +83,6 @@ export default {
 
     },
     async loginForm() {
-      const settedID = uuid();
-
       const API_URL = "http://127.0.0.1:3000/admin-login"
       try {
         const result = await fetch(API_URL, {
@@ -99,21 +94,19 @@ export default {
           body: JSON.stringify({
             username: this.inputed_username,
             password: this.inputed_password,
-            id: settedID
+            exp: Math.round(Date.now() / 1000)
           })
         }).then(res => res.json())
 
         if (result.length === 0) {
           this.error = true;
         } else {
-          window.localStorage.setItem('id', settedID);
+          window.localStorage.setItem('token', result.token)
           this.isAdmin = true;
           this.error = false;
-          console.log(this.error);
         }
       } catch (err) {
-
-        console.log('result failed')
+        console.log(err)
       }
 
     },
