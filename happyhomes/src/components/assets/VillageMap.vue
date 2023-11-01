@@ -13,7 +13,7 @@
         <YandexCollection v-for="item in villages">
           <YandexMarker
               :options="{ preset: 'islands#redHomeIcon' }"
-              v-if="item.type === 'rent' && balloonRed"
+              v-if="item.type === 'plot' && balloonRed"
               :key="item.id"
               :coordinates="item.coordinates.split(',')"
               :marker-id="item.id"
@@ -22,30 +22,39 @@
               data-target="#exampleModalLong"
           >
             <template #component>
-              <router-link :to="'/all-villages/village-instock-single/' + item.id">{{ item.name }}</router-link>
+              <custom-balloon
+                  :name="item.name"
+                  :price="item.price"
+                  :link="'/all-villages/village-instock-single/' + item.id" ></custom-balloon>
             </template>
           </YandexMarker>
           <YandexMarker
               :options="{ preset: 'islands#blueHomeIcon' }"
-              v-if="item.type === 'homes' && balloonBlue"
+              v-if="item.type === 'home' && balloonBlue"
               :key="item.id"
               :coordinates="item.coordinates.split(',')"
               :marker-id="item.id"
           >
             <template #component>
-              <router-link :to="'/all-villages/village-instock-single/' + item.id">{{ item.name }}</router-link>
+              <custom-balloon
+                  :name="item.name"
+                  :price="item.price"
+                  :link="'/all-villages/village-instock-single/' + item.id" ></custom-balloon>
             </template>
           </YandexMarker>
           <YandexMarker
               :options="{ preset: 'islands#greenHomeIcon' }"
-              v-if="item.type === 'farm' && balloonGreen"
+              v-if="item.type === 'secondary' && balloonGreen"
               :key="item.id"
               :coordinates="item.coordinates.split(',')"
               :marker-id="item.id"
 
           >
             <template #component>
-              <router-link :to="'/all-villages/village-instock-single/' + item.id">{{ item.name }}</router-link>
+              <custom-balloon
+                  :name="item.name"
+                  :price="item.price"
+                  :link="'/all-villages/village-instock-single/' + item.id" ></custom-balloon>
             </template>
           </YandexMarker>
           <YandexMarker
@@ -56,7 +65,10 @@
               :marker-id="item.id"
           >
             <template #component>
-              <router-link :to="'/all-villages/village-instock-single/' + item.id">{{ item.name }}</router-link>
+              <custom-balloon
+                  :name="item.name"
+                  :price="item.price"
+                  :link="'/all-villages/village-instock-single/' + item.id" ></custom-balloon>
             </template>
           </YandexMarker>
 
@@ -82,13 +94,13 @@
           <div class="blue col">
             <div v-if="balloonRed === true" class="text-center">
               <img src="./../../assets/mapicon_red.svg" />
-              <p class="">Аренда</p>
+              <p class="">Участки</p>
               <button @click="balloonRed = false" class="btn"> не показывать</button>
 
             </div>
             <div v-else class="text-center grayscale">
               <img src="./../../assets/mapicon_red.svg" />
-              <p class="">Аренда</p>
+              <p class="">Участки</p>
               <button @click="balloonRed = true" class="btn"> показать</button>
             </div>
           </div>
@@ -106,17 +118,17 @@
               <button @click="balloonYellow = true" class="btn"> показать</button>
             </div>
           </div>
-          <div class="green d-flex col">
+          <div class="green col">
 
             <div v-if="balloonGreen === true" class="text-center">
               <img src="./../../assets/mapicon_green.svg" />
-              <p class="">Фермы</p>
+              <p class="">Вторичка</p>
               <button @click="balloonGreen = false" class="btn"> не показывать</button>
 
             </div>
             <div v-else class="text-center grayscale">
               <img src="./../../assets/mapicon_green.svg" />
-              <p class="">Фермы</p>
+              <p class="">Вторичка</p>
               <button @click="balloonGreen = true" class="btn"> показать</button>
             </div>
           </div>
@@ -129,18 +141,22 @@
 </template>
 
 <script>
+import { ref } from 'vue';
 import releasedProjects from "../ReleasedProjects.vue";
 import { YandexMap, YandexMarker, YandexCollection} from 'vue-yandex-maps'
 import axios from "axios";
-
+import CustomBalloon from './CustomBalloon.vue';
+const name = ref();
 
 export default {
   name: "VillageMap.vue",
-  components: { YandexMap, YandexMarker, YandexCollection , releasedProjects },
+  components: {CustomBalloon, YandexMap, YandexMarker, YandexCollection , releasedProjects },
+
+
   data() {
     return {
+
       villages: {},
-      renderComponent: true,
       coordinates: [55.753753, 37.622645],
       settings: {
         apiKey: 'ed7341a7-5d45-4b53-a2ba-385417af70aa',
@@ -216,5 +232,11 @@ p {
     width: 25px;
     height: auto;
   }
+
+}
+
+.yandex-balloon {
+  height: 200px;
+  width: 200px;
 }
 </style>

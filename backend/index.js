@@ -124,7 +124,7 @@ app.post('/single_village_instock', cors(), async function (req, res, id) {
     })
 })
 
-//insert project
+//add project
 app.post('/insert-project', cors(), async function (req, res) {
     const object = req.body.projectAdd;
     connection.query("INSERT INTO `villages_instock`(`name`, `link`, `description`, `category`, `price`, `photos`, `howtoride_all`, `howtoride_personal`, `about`, `interactive`, `id`, `coordinates`, `type`) VALUES ('" + object.header + "','" + object.link + "','" + object.features + "','" + object.category + "','" + object.price + "','" + object.photos + "','" + object.howtoride_all + "','" + object.howtoride_personal + "','" + object.about + "','" + object.interactive + "','" + object.id + "','" + object.coordinates +"','" + object.type + "')", function (err, rows, fields) {

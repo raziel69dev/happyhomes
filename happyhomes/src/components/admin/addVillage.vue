@@ -10,13 +10,13 @@
       </div>
       <div class="row container" v-if="isAdmin">
         <div class="col-md-4 col-12 mt-4">
-          <label>Куда добавляем?</label>
+          <label>Категория объекта</label>
           <select class="form-control"
-                  :required="true"
+                  required
                   v-on:input="onWhereChanged($event.target.value)"
-                  @input="project.where = $event.target.value">
+                  @input="project.type = $event.target.value">
             <option
-                v-for="option in options"
+                v-for="option in types"
                 v-bind:value="option.value"
                 :selected="option === 'Сгенерированная ссылка'"
             >{{ option.name }}</option>
@@ -43,35 +43,22 @@
           <p class="form-control coordinatesYandex">Получены координаты: <span id="coordinatesYandex">{{ generatedCoordinates.toString() }}</span></p>
 
 
-          <label>Категория объекта</label>
-          <select class="form-control"
-                  :required="true"
-                  v-on:input="onWhereChanged($event.target.value)"
-                  @input="project.type = $event.target.value">
-            <option
-                v-for="option in types"
-                v-bind:value="option.value"
-                :selected="option === 'Сгенерированная ссылка'"
-            >{{ option.name }}</option>
-            @change="onWhereChanged(option)">
 
-
-          </select>
           <div class="custom-file">
             <label class="mt-3">Фото 1</label>
-            <input type="file" class="custom-file-input" id="customFile">
+            <input type="file" class="custom-file-input" id="customFile" @change="onFileChange">
           </div>
           <div class="custom-file">
             <label>Фото 2</label>
-            <input type="file" class="custom-file-input" id="customFile2">
+            <input type="file" class="custom-file-input" id="customFile2" @change="onFileChange">
           </div>
           <div class="custom-file">
             <label>Фото 3</label>
-            <input type="file" class="custom-file-input" id="customFile3">
+            <input type="file" class="custom-file-input" id="customFile3" @change="onFileChange">
           </div>
           <div class="custom-file">
             <label>Фото 4</label>
-            <input type="file" class="custom-file-input" id="customFile4">
+            <input type="file" class="custom-file-input" id="customFile4" @change="onFileChange">
           </div>
         </div>
 
@@ -122,33 +109,28 @@ export default {
   name: "addVillage.vue",
   data () {
     return {
+
       isAdmin: false,
       generatedCoordinates: '',
       getcoordinates: '',
       id: '',
       selected: 'Сгенерированная ссылка появится тут',
-      options: [ {
-        name: 'Выбрать куда добавлять',
-        value: '',
-      },{
-        name: 'Реализованные проекты',
-        value: `/village-single/`,
-      }, {
-        name: 'Все поселки',
-        value: `/all_villages/`
-      }],
+
       types: [ {
-        name: 'Аренда',
-        value: 'rent',
+        name: 'Участки',
+        value: 'plot',
       },{
-        name: 'Дома',
-        value: 'homes',
+        name: 'Вторичка',
+        value: 'secondary',
       }, {
-        name: 'Ферма',
-        value: 'farm'
-      }, {
-        name: 'Скидки',
+        name: 'Акции',
         value: 'sales'
+      }, {
+        name: 'Дома',
+        value: 'home'
+      }, {
+        name: 'Реализованные проекты',
+        value: 'released'
       }],
       onWhereChanged(value) {
         console.log(value);
@@ -166,7 +148,7 @@ export default {
         howtoride_personal: '',
         category: '',
         interactive: '',
-        photo: '',
+        photo: [],
         coordinates: ''
 
       }
@@ -177,6 +159,18 @@ export default {
     this.checkAdminPrivelegies()
   },
   methods: {
+    onFileChange(e) {
+      let rawImg;
+      const selectedFile = e.target.files[0]; // accessing file
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        rawImg = reader.result;
+        this.project.photo.push(rawImg)
+      }
+      // this.project.photo.append(selectedFile);
+
+      reader.readAsDataURL(selectedFile);
+    },
     async checkAdminPrivelegies (){
       //check admin
       const API_URL = "http://127.0.0.1:3000/admin-login-check"
@@ -208,12 +202,14 @@ export default {
       this.project.link = this.selected + projUid
       this.project.id = projUid
       const API_URL = "http://127.0.0.1:3000/insert-project"
+      console.log(this.project.photo)
       try {
         const result = await fetch(API_URL, {
           method: "POST",
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
+
           },
           body: JSON.stringify({
             projectAdd
@@ -226,6 +222,7 @@ export default {
 
       console.log(this.selected)
     },
+
     async getCoordinates() {
       const address = document.getElementById('generateCoords').value;
       const url = `https://geocode-maps.yandex.ru/1.x/?apikey=ed7341a7-5d45-4b53-a2ba-385417af70aa&geocode=${address}&format=json`;

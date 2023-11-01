@@ -16,7 +16,7 @@
         <h2>{{ village.name }}
 
         </h2>
-
+      <img :src="imageSrc">
       </div>
       <div class="col-md-3 text-end price">
 
@@ -100,6 +100,7 @@ export default {
     return {
       loading: true,
       village: {},
+      imageSrc: '@/../assets/images/96498bcb-6f80-4880-a186-039c878f31f3/image0.png'
     }
   },
 
