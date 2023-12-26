@@ -22,8 +22,13 @@
       <h2>Панель администратора</h2>
       <div class="submenu">
         <router-link to="/admin/add-village" >Добавить проект</router-link>
+        <router-link to="/admin/add-home" >Добавить дом</router-link>
         <router-link to="/admin/delete-village" >Удалить проект</router-link>
         <router-link to="/admin/change-contacts" >Изменить контакты</router-link>
+        <router-link to="/admin/add-sale" >Добавить акцию</router-link>
+        <router-link to="/admin/delete-sale" >Удалить акцию</router-link>
+        <router-link to="/admin/service" >Добавить услугу</router-link>
+        <router-link to="/admin/service" >Удалить услугу</router-link>
       </div>
       <router-view />
     </div>
@@ -61,7 +66,7 @@ export default {
   methods: {
     async checkAdmin() {
       //check admin
-      const API_URL = "http://127.0.0.1:3000/admin-login-check"
+      const API_URL = "http://83.147.245.251:3000/admin-login-check"
       try {
         const result = await fetch(API_URL, {
           method: "POST",
@@ -83,7 +88,7 @@ export default {
 
     },
     async loginForm() {
-      const API_URL = "http://127.0.0.1:3000/admin-login"
+      const API_URL = "http://83.147.245.251:3000/admin-login"
       try {
         const result = await fetch(API_URL, {
           method: "POST",
@@ -115,7 +120,7 @@ export default {
       const projUid = uuid()
       this.project.link = this.selected + projUid
       this.project.id = projUid
-      const API_URL = "http://127.0.0.1:3000/insert-project"
+      const API_URL = "http://83.147.245.251:3000/insert-project"
       try {
         const result = await fetch(API_URL, {
           method: "POST",
@@ -161,6 +166,10 @@ label {
   transition: 0.15s ease;
   padding: 10px 20px;
 
+}
+.submenu {
+  display: flex;
+  flex-wrap: wrap;
 }
 .submenu a:hover {
   border-color: black;

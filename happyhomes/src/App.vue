@@ -11,8 +11,11 @@
       </div>
 
       <div class="col-md-3 contacts text-center align-bottom">
-        <div class="phone"><a :href="'tel:' + contacts.phone">{{ contacts.phone }}</a></div>
-        <div class="address">{{ contacts. adress }}<br>{{ contacts.time }}</div>
+        <div class="phone"><a
+            :href="'tel:' + contacts.phone.replace('\(', '').replace('\)', '').replaceAll(' ', '').replaceAll('-', '')">{{
+            contacts.phone
+          }}</a></div>
+        <div class="address">{{ contacts.adress }}<br>{{ contacts.time }}</div>
       </div>
 
       <div class="col-md-5">
@@ -78,7 +81,7 @@ export default {
   methods: {
 
     async getContacts() {
-      const API_URL = "http://127.0.0.1:3000/get-contact-info"
+      const API_URL = "http://83.147.245.251:3000/get-contact-info"
 
       try {
         const result = await fetch(API_URL, {

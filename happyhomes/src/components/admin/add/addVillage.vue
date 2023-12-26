@@ -46,19 +46,19 @@
 
           <div class="custom-file">
             <label class="mt-3">Фото 1</label>
-            <input type="file" class="custom-file-input" id="customFile" @change="onFileChange">
+            <input type="text" class="custom-file-input" @change="project.photo.push($event.target.value)">
           </div>
           <div class="custom-file">
             <label>Фото 2</label>
-            <input type="file" class="custom-file-input" id="customFile2" @change="onFileChange">
+            <input type="text" class="custom-file-input" @change="project.photo.push($event.target.value)">
           </div>
           <div class="custom-file">
             <label>Фото 3</label>
-            <input type="file" class="custom-file-input" id="customFile3" @change="onFileChange">
+            <input type="text" class="custom-file-input" @change="project.photo.push($event.target.value)">
           </div>
           <div class="custom-file">
             <label>Фото 4</label>
-            <input type="file" class="custom-file-input" id="customFile4" @change="onFileChange">
+            <input type="text" class="custom-file-input" @change="project.photo.push($event.target.value)">
           </div>
         </div>
 
@@ -159,21 +159,9 @@ export default {
     this.checkAdminPrivelegies()
   },
   methods: {
-    onFileChange(e) {
-      let rawImg;
-      const selectedFile = e.target.files[0]; // accessing file
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        rawImg = reader.result;
-        this.project.photo.push(rawImg)
-      }
-      // this.project.photo.append(selectedFile);
-
-      reader.readAsDataURL(selectedFile);
-    },
     async checkAdminPrivelegies (){
       //check admin
-      const API_URL = "http://127.0.0.1:3000/admin-login-check"
+      const API_URL = "http://83.147.245.251:3000/admin-login-check"
       try {
         const result = await fetch(API_URL, {
           method: "POST",
@@ -197,11 +185,11 @@ export default {
     async addProject () {
       const projectAdd = this.project
       projectAdd.coordinates = document.getElementById('coordinatesYandex').innerText
-      console.log(projectAdd)
+
       const projUid = uuid()
       this.project.link = this.selected + projUid
       this.project.id = projUid
-      const API_URL = "http://127.0.0.1:3000/insert-project"
+      const API_URL = "http://83.147.245.251:3000/insert-project"
       console.log(this.project.photo)
       try {
         const result = await fetch(API_URL, {

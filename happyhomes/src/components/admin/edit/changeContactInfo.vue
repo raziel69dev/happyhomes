@@ -72,7 +72,7 @@ export default {
   methods: {
     async checkAdminPrivelegies (){
       //check admin
-      const API_URL = "http://127.0.0.1:3000/admin-login-check"
+      const API_URL = "http://83.147.245.251:3000/admin-login-check"
       try {
         const result = await fetch(API_URL, {
           method: "POST",
@@ -94,7 +94,7 @@ export default {
 
     },
     async getContacts() {
-      const API_URL = "http://127.0.0.1:3000/get-contact-info"
+      const API_URL = "http://83.147.245.251:3000/get-contact-info"
 
       try {
         const result = await fetch(API_URL, {
@@ -117,7 +117,7 @@ export default {
         description: document.getElementById('description').value.replace(/'([^']+)'/g, '«$1»'),
         adress: document.getElementById('adress').value
       }
-      const API_URL = "http://127.0.0.1:3000/set-contact-info"
+      const API_URL = "http://83.147.245.251:3000/set-contact-info"
       try {
         const results = await fetch(API_URL, {
           method: "POST",

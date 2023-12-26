@@ -71,7 +71,7 @@ export default {
   methods: {
     async checkAdminPrivelegies (){
       //check admin
-      const API_URL = "http://127.0.0.1:3000/admin-login-check"
+      const API_URL = "http://83.147.245.251:3000/admin-login-check"
       try {
         const result = await fetch(API_URL, {
           method: "POST",
@@ -95,7 +95,7 @@ export default {
     async deleteProject () {
       const deleteProject = this.project
 
-      const API_URL = "http://127.0.0.1:3000/delete-project"
+      const API_URL = "http://83.147.245.251:3000/delete-project"
       try {
         const result = await fetch(API_URL, {
           method: "POST",

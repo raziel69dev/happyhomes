@@ -100,7 +100,7 @@ export default {
   methods: {
     async getVillage() {
       const need_id = window.location.pathname.replace('/all-villages/village-single/', '');
-      const API_URL = "http://127.0.0.1:3000/single_village/"
+      const API_URL = "http://83.147.245.251:3000/single_village/"
       try {
         const result = await fetch(API_URL, {
           method: "POST",
@@ -112,6 +112,7 @@ export default {
         }).then(res => res.json())
 
         this.village = result[0];
+
         this.loading = false;
 
       } catch (err) {

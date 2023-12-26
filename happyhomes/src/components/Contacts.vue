@@ -10,16 +10,20 @@
         </p>
         <div class="row contacts">
           <div class="col-md-5 left">
-            Часы работы:<br />
-            Телефон:<br />
+            Часы работы:<br/>
+            Телефон:<br/>
             E-mail:
           </div>
           <div class="col right">
-            {{ contacts.time }} <br />
-            <a :href="'tel:' + contacts.phone">{{ contacts.phone }}</a>
-            <a :href="'https://t.me/' + contacts.phone.replace('\(', '').replace('\)', '').replaceAll(' ', '').replaceAll('-', '')"><img src="./../assets/icons/telegram.png" alt="" class="phone-icon"></a>
-            <a :href="'https://wa.me/' + contacts.phone.replace('\(', '').replace('\)', '').replaceAll(' ', '').replaceAll('-', '')"><img src="./../assets/icons/whatsapp.png" alt="" class="phone-icon"></a>
-            <br />
+            {{ contacts.time }} <br/>
+            <a :href="'tel:' + contacts.phone.replace('\(', '').replace('\)', '').replaceAll(' ', '').replaceAll('-', '')">{{
+                contacts.phone
+              }}</a>
+            <a :href="'https://t.me/' + contacts.phone.replace('\(', '').replace('\)', '').replaceAll(' ', '').replaceAll('-', '')"><img
+                src="./../assets/icons/telegram.png" alt="" class="phone-icon"></a>
+            <a :href="'https://wa.me/' + contacts.phone.replace('\(', '').replace('\)', '').replaceAll(' ', '').replaceAll('-', '')"><img
+                src="./../assets/icons/whatsapp.png" alt="" class="phone-icon"></a>
+            <br/>
             <a :href="'mailto:' + contacts.email">{{ contacts.email }}</a>
           </div>
         </div>
@@ -51,11 +55,11 @@
 </template>
 
 <script>
-import { YandexMap, YandexMarker  } from 'vue-yandex-maps'
+import {YandexMap, YandexMarker} from 'vue-yandex-maps'
 
 export default {
   name: "Contacts.vue",
-  components: { YandexMap,YandexMarker },
+  components: {YandexMap, YandexMarker},
 
 
   data() {
@@ -88,7 +92,7 @@ export default {
       return [splitcoordinates[1], splitcoordinates[0]]
     },
     async getContacts() {
-      const API_URL = "http://127.0.0.1:3000/get-contact-info"
+      const API_URL = "http://83.147.245.251:3000/get-contact-info"
 
       try {
 
@@ -114,26 +118,34 @@ export default {
 .map-contacts {
   height: 350px;
 }
+
 .description {
   font-size: 18px;
 }
+
 .address {
   font-size: 18px;
 }
+
 .contacts {
   font-size: 18px;
+
   .right {
     font-weight: 600;
+
     a {
       color: #000000;
       text-decoration: none;
     }
   }
+
   .left {
 
   }
-}.phone-icon {
+}
+
+.phone-icon {
   width: 20px;
   margin-left: 10px;
- }
+}
 </style>

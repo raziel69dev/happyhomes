@@ -27,7 +27,20 @@
 
         <div class="col-lg-4 col-md-6 col-12" v-for="village in villages">
           <div class="p-3 card shadow">
-            <div class="village-image">{{ village.photo }}</div>
+            <div class="images-slider-wrapper">
+              <div class="images-slider">
+                <div class="village-image" v-for="(item) in village.photos.split(',')">
+                  <img :src="item" alt="" class="w-100" data-fancybox="gallery" :data-index="village.photos.length">
+
+                </div>
+
+              </div>
+              <div class="arrows-slide">
+                <div class="next" @click="slide('left')">&#8250;</div>
+                <div class="prev" @click="slide('right')">&#8249;</div>
+              </div>
+            </div>
+
             <div class="village-heading align-items-center d-flex justify-content-between">
               <div class="village-header">{{ village.name }}</div>
               <div class="village-price">от {{ village.price }} р.</div>
@@ -53,9 +66,13 @@
 
 </template>
 
+
 <script>
 import releasedProjects from "../ReleasedProjects.vue";
 import axios from "axios";
+
+
+
 export default {
   name: "VillageList.vue",
   components: {releasedProjects},
@@ -68,24 +85,86 @@ export default {
   created () {
     this.getAllVillagesInstock()
   },
+
   methods: {
     async getAllVillagesInstock () {
-      const API_URL = "http://127.0.0.1:3000/villages_instock"
+      const API_URL = "http://83.147.245.251:3000/villages_instock"
 
       try {
         const result = await axios(API_URL).then(res => res.data)
         this.loading = false;
+        console.log(result)
         return this.villages = result;
 
       } catch (err) {
 
       }
+    },
+    slide(dest) {
+      const slides = document.querySelector('.images-slider')
+      const marginLeft = parseInt(slides.style.left.replace('%', '')) || 0;
+
+      switch (dest) {
+        case 'left':
+          marginLeft === -300 ? slides.style.left = 0 : slides.style.left = marginLeft - 100 + '%'
+            console.log(marginLeft)
+          break;
+        case 'right':
+          marginLeft === 0 ? slides.style.left = -300 + '%' : slides.style.left = marginLeft + 100 + '%'
+          console.log(marginLeft)
+          break;
+      }
+
     }
+
   }
 }
 </script>
 
 <style lang="scss">
+.card {
+  .images-slider-wrapper {
+    width: calc(100%);
+
+
+    overflow: hidden;
+    .images-slider {
+      position: relative;
+      width: 400%;
+      display: flex;
+      transition: .15s all ease!important;
+    }
+
+
+    .village-image {
+      width: 100% ;
+    }
+    .arrows-slide {
+
+      font-size: 100px;
+      color: rgba(255,255,255,.5);
+      transition: .15s ease;
+      cursor: pointer;
+
+      &:hover {
+        color: #ffffff;
+      }
+      .prev {
+        position: absolute;
+        top: 30px;
+        left: 20px;
+        z-index: 2;
+      }
+      .next {
+        position: absolute;
+        top: 30px;
+        right: 20px;
+        z-index: 2;
+      }
+    }
+  }
+
+}
 a.list-item {
   font-size: 20px;
   font-weight: bold;

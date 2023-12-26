@@ -42,7 +42,7 @@ export default{
   },
   methods: {
     async getVillages() {
-      const API_URL = "http://127.0.0.1:3000/villages_released"
+      const API_URL = "http://83.147.245.251:3000/villages_released"
 
       try {
         const result = await axios(API_URL).then(res => res.data)

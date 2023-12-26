@@ -14,13 +14,17 @@ import Contacts from './components/Contacts.vue'
 import villageMap from "./components/assets/VillageMap.vue";
 import villageList from "./components/assets/VillageList.vue";
 import allVillages from "./components/AllVillages.vue";
+
 import villageReleasedSingle from "./components/assets/VillageReleasedSingle.vue";
 import loginPage from "./components/admin/loginPage.vue";
 import villageInstockSingle from "./components/assets/VillageInstockSingle.vue";
-import addVillage from "./components/admin/addVillage.vue";
-import changeContactInfo from "./components/admin/changeContactInfo.vue";
-import deleteProject from "./components/admin/deleteProject.vue";
+import addVillage from "./components/admin/add/addVillage.vue";
+import changeContactInfo from "./components/admin/edit/changeContactInfo.vue";
+import deleteProject from "./components/admin/delete/deleteProject.vue";
 import breadcrumbs from "vue-3-breadcrumbs";
+import addHome from "./components/admin/add/addHome.vue";
+import addSale from "./components/admin/add/addSale.vue";
+import deleteSale from "./components/admin/delete/deleteSale.vue";
 
 
 
@@ -39,16 +43,16 @@ const router = createRouter({
         children: [{
             path: '/all-villages/',
             component: villageMap
-        },{
-            path: '/all-villages-list',
-            component: villageList
-        },{
-            path: '/all-villages/village-single/:id',
-            component: villageReleasedSingle
-        },{
-            path: '/all-villages/village-instock-single/:id',
-            component: villageInstockSingle
         }]
+    },{
+        path: '/all-villages-list',
+        component: villageList
+    },{
+        path: '/all-villages/village-single/:id',
+        component: villageReleasedSingle
+    },{
+        path: '/all-villages/village-instock-single/:id',
+        component: villageInstockSingle
     }, {
         path: '/all-homes',
         component: AllHomes
@@ -68,11 +72,20 @@ const router = createRouter({
         path: '/admin/add-village',
         component: addVillage
     }, {
+        path: '/admin/add-home',
+        component: addHome
+    }, {
         path: '/admin/change-contacts',
         component: changeContactInfo
     }, {
         path: '/admin/delete-village',
         component: deleteProject
+    }, {
+        path: '/admin/add-sale',
+        component: addSale
+    }, {
+        path: '/admin/delete-sale',
+        component: deleteSale
     }],
     history: createWebHistory()
 })
